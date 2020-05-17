@@ -1,0 +1,42 @@
+<html>
+<head>
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css">
+	<script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
+	<script src="leaflet-hash.js"></script>
+	
+	<title>Streetlevel imagery search helper</title>
+<style type="text/css">
+
+#mapcontainer {
+	width: 640px;
+	height: 480px;
+}
+
+
+#attributions {
+	background-color: #ddd;
+}
+
+
+
+</style>
+</head>
+<body onload="initMap()">
+	<div id='mapcontainer'></div>
+	<input type="text" id="query" value="shop=rice">
+	<input type="button" id="" value="Search" onclick="check()">
+
+<div id="attributions">
+<p>Attributions
+<ul>
+<li>Map: <a href="https://www.openstreetmap.org/copyright">(C)OpenStreetMap contributors</a></li>
+<li>Display map: <a href="https://leafletjs.com/">Leaflet</a></li>
+</ul>
+</div>
+<p>Bug report at <a href="https://github.com/tankaru/">Github</a></p>
+<script src="main.js"></script>
+</body>
+</html>
+
