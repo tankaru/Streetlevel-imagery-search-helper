@@ -4,6 +4,17 @@ const client_id = 'NEh3V0ZjaE1fT1Nkdk9jMnJlSGNQQToyNzlmZjQxM2U2MjBjMGUy';
 let map;
 let poi_markers;
 
+function saveUrl() {
+	const url = location.href;
+	localStorage.setItem('url', url);
+}
+
+function loadUrl(){
+	const url = localStorage.getItem('url');
+	console.log("URL loaded: ", url);
+	return url;
+}
+
 function check(){
 
 	const bbox = map.getBounds().getSouth() + ',' + map.getBounds().getWest() + ',' + map.getBounds().getNorth() + ',' + map.getBounds().getEast();
@@ -46,8 +57,10 @@ function check(){
             } else {
                 continue;
             }
-            const marker = L.marker([Number(lat), Number(lon)]);
-            const popup = `<a href="https://www.mapillary.com/app/?lat=${lat}&lng=${lon}&z=19" target="_blank"><pre>${JSON.stringify(item.tags, null, 2)}</pre></a>`;
+			const marker = L.marker([Number(lat), Number(lon)]);
+			let tags = JSON.stringify(item.tags, null, 1);
+			tags = tags.replace(/{\n/,"").replace(/\n}$/,"");
+            const popup = `OSM tags:<pre>${tags}</pre><a href="https://www.mapillary.com/app/?lat=${lat}&lng=${lon}&z=19" target="_blank">Open Mapillary</a>`;
             marker.bindPopup(popup).openPopup();
             markers.push(marker);
 
@@ -58,6 +71,16 @@ function check(){
 	}
 	request.send();
 }
+//ウィンドウを閉じるときにURLを保存
+/*
+window.addEventListener('beforeunload', (event) => {
+	saveUrl();
+	// Cancel the event as stated by the standard.
+	//event.preventDefault();
+	// Chrome requires returnValue to be set.
+	event.returnValue = '';
+  });
+*/
 
 //http://ktgis.net/service/leafletlearn/index.html
 function initMap() {
@@ -70,10 +93,18 @@ function initMap() {
 	//URLに座標が付いていたらその場所を初期位置にする。
 	const url = location.href;
 	const match = url.match(/#(\d{1,2})\/(-?\d[0-9.]*)\/(-?\d[0-9.]*)/);
+	const prev_url = loadUrl();
+	let prev_match;
+	if (prev_url) prev_match = prev_url.match(/#(\d{1,2})\/(-?\d[0-9.]*)\/(-?\d[0-9.]*)/);
+
 	if (match){
 		const [, zoom, lat, lon] = match;
 		map.setView([lat, lon], zoom);
-	} else {
+	} else if (prev_match){
+		const [, zoom, lat, lon] = prev_match;
+		map.setView([lat, lon], zoom);
+	} else
+	{
 		map.setView([37.9243912, 139.045191], 15);
 	}
 
@@ -106,6 +137,10 @@ function initMap() {
 	var overlayLayer = {
 		"Mapillary":mapillaryLayer,
 	}
+
+	map.on('moveend', function(e){
+		saveUrl();
+	});
 
 	//レイヤ設定
 	var layerControl = L.control.layers(baseMap,overlayLayer,{"collapsed":true,});
