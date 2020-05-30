@@ -59,8 +59,8 @@ function check(){
             }
 			const marker = L.marker([Number(lat), Number(lon)]);
 			let tags = JSON.stringify(item.tags, null, 1);
-			tags = tags.replace(/{\n/,"").replace(/\n}$/,"");
-            const popup = `OSM tags:<pre>${tags}</pre><a href="https://www.mapillary.com/app/?lat=${lat}&lng=${lon}&z=19" target="_blank">Open Mapillary</a>`;
+			tags = tags.replace(/{\n/,"").replace(/\n}$/,"").replace(/"/g,"").replace(/,\n/g,"\n");
+            const popup = `OSM tags:<pre>${tags}</pre><a href="https://www.mapillary.com/app/?lat=${lat}&lng=${lon}&z=19" target="_blank">Open Mapillary here</a>`;
             marker.bindPopup(popup).openPopup();
             markers.push(marker);
 
