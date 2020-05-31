@@ -30,16 +30,20 @@
 		<h1 class="navbar-brand">Street level imagery search helper</h1>
 		<form class="form-inline">
 			<div class="input-group">
-			  <input type="text" class="form-control" id="query" value="shop=supermarket">
-			  <div class="input-group-append">
-				<button type="button" class="btn btn-secondary" value="Search" onclick="check()">Find</button>
-			  </div>
+				<div class="spinner-border text-secondary text-light" role="status" id="spinner" style="display:none">
+					<span class="sr-only">Loading...</span>
+				</div>
+				<input type="text" class="form-control" id="query" value="shop=supermarket">
+				<div class="input-group-append">
+					<button type="button" class="btn btn-secondary" value="Search" onclick="check()">
+						Find
+					</button>
+				</div>
 			</div>
 		  </form>
 	</nav>
 
 	<div id='mapcontainer'></div>
-
 
 <div id="attributions" class="alert alert-secondary" role="alert">
 	<ul>

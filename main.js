@@ -37,6 +37,9 @@ function check(){
 
 
 	console.log(url);
+
+	jQuery("#spinner").css("display", "inline-block");
+
 	let request = new XMLHttpRequest();
 	request.open('GET', url , true);
 	request.onload = function () {
@@ -62,8 +65,9 @@ function check(){
 			tags = tags.replace(/{\n/,"").replace(/\n}$/,"").replace(/"/g,"").replace(/,\n/g,"\n");
             const popup = `OSM tags:<pre>${tags}</pre><a href="https://www.mapillary.com/app/?lat=${lat}&lng=${lon}&z=19" target="_blank">Open Mapillary here</a>`;
             marker.bindPopup(popup).openPopup();
-            markers.push(marker);
-
+			markers.push(marker);
+			
+			jQuery("#spinner").css("display", "none");
 		}
         poi_markers = L.layerGroup(markers).addTo(map);
 		//drawGrid();
