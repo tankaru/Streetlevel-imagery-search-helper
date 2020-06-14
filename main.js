@@ -1,16 +1,17 @@
 
 const client_id = 'NEh3V0ZjaE1fT1Nkdk9jMnJlSGNQQToyNzlmZjQxM2U2MjBjMGUy';
+const url_key = 'Streetlevel imagery search helper url';
 
 let map;
 let poi_markers;
 
 function saveUrl() {
 	const url = location.href;
-	localStorage.setItem('url', url);
+	localStorage.setItem(url_key, url);
 }
 
 function loadUrl(){
-	const url = localStorage.getItem('url');
+	const url = localStorage.getItem(url_key);
 	console.log("URL loaded: ", url);
 	return url;
 }
